@@ -3,6 +3,7 @@ import AddEdit from "../views/AddEdit.vue";
 import Vue from "vue";
 import VueRouter from "vue-router";
 
+
 Vue.use(VueRouter);
 
 const routes = [
@@ -15,3 +16,4 @@ const router = new VueRouter({
 });
 
 export default router;
+   
