@@ -1,7 +1,7 @@
 <template>
   <div>
-    <v-toolbar app flat color="pink darken-1  white--text  ">
-      <v-app-bar-nav-icon
+    <v-toolbar app flat color="pink darken-1  white--text">
+      <v-app-bar-nav-icon 
         right
         @click="drawer = !drawer"
         fab

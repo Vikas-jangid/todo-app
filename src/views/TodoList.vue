@@ -7,16 +7,16 @@
         >
         <v-divider></v-divider>
         <v-row class="my-2">
-          <v-col cols="4">
+          <v-col cols="4" lg="4" md="4" sm="6" xs="12">
             <v-text-field placeholder="search by title" solo></v-text-field>
           </v-col>
-          <v-col cols="4">
-            <v-text-field v-model="date" placeholder="search by date" solo>
+          <v-col cols="4" lg="4" md="4" sm="6" xs="12">
+            <v-text-field v-model="date" placeholder="search by date" solo >
               <v-date-picker ref="picker" v-model="date" icon="mdi-calendar">
               </v-date-picker>
             </v-text-field>
           </v-col>
-          <v-col cols="4">
+          <v-col cols="4" lg="4" md="4" sm="6" xs="12">
             <v-select
               :items="TodoItems"
               label="Search By Status"
@@ -25,6 +25,19 @@
           </v-col>
         </v-row>
         <v-data-table :headers="headers" :items="TodoItems" :items-per-page="5">
+          <template v-slot:extension>
+            <v-btn
+            slot=
+              fab
+              color="cyan accent-2"
+              bottom
+              left
+              absolute
+              @click="dialog = !dialog"
+            >
+              <v-icon>mdi-plus</v-icon>
+            </v-btn>
+          </template>
         </v-data-table>
         <v-pagination v-model="page" :length="calLength()" class="my-5"></v-pagination>
       </v-card>
@@ -40,12 +53,7 @@ export default {
       search: "",
       status: "",
       headers: [
-        {
-          text: "Task",
-          align: "start",
-          sortable: false,
-          value: "name",
-        },
+        { text: "Task", align: "start", sortable: false, value: "name", },
         { text: "Description", value: "Description" },
         { text: "Priority", value: "Priority" },
         { text: "Added On", value: "Added_On" },
