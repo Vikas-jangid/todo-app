@@ -11,14 +11,35 @@
             <v-text-field placeholder="search by title" solo></v-text-field>
           </v-col>
           <v-col cols="4" lg="4" md="4" sm="6" xs="12">
-            <v-text-field v-model="date" placeholder="search by date" solo >
-              <v-date-picker ref="picker" v-model="date" icon="mdi-calendar">
-              </v-date-picker>
-            </v-text-field>
+              <v-menu
+                v-model="menu2"
+                :close-on-content-click="false"
+                :nudge-right="40"
+                transition="scale-transition"
+                offset-y
+                min-width="auto"
+              >
+                <template v-slot:activator="{ on, attrs }">
+                  <v-text-field
+                    v-model="date"
+                    label="Search by Date"
+                    prepend-icon="mdi-calendar"
+                    v-bind="attrs"
+                    v-on="on"
+                    required
+                    solo
+                  >
+                  </v-text-field>
+                </template>
+                <v-date-picker
+                  v-model="date"
+                  @input="menu2 = false"
+                ></v-date-picker>
+              </v-menu>
           </v-col>
           <v-col cols="4" lg="4" md="4" sm="6" xs="12">
             <v-select
-              :items="TodoItems"
+              :items="TodoItems.Status"
               label="Search By Status"
               solo
             ></v-select>
@@ -27,7 +48,6 @@
         <v-data-table :headers="headers" :items="TodoItems" :items-per-page="5">
           <template v-slot:extension>
             <v-btn
-            slot=
               fab
               color="cyan accent-2"
               bottom
@@ -46,92 +66,91 @@
 </template>
 <script>
 export default {
-  data() {
+  data(){
     return {
+      menu2 : false,
       page: 1,
       date: "",
       search: "",
-      status: "",
       headers: [
         { text: "Task", align: "start", sortable: false, value: "name", },
         { text: "Description", value: "Description" },
         { text: "Priority", value: "Priority" },
         { text: "Added On", value: "Added_On" },
-        { text: "Status", value: "Status" },
+        { text: "Status", value: "Status" }
       ],
       TodoItems: [
         {
           name: "TASK_0",
           Description: "TASK NEEDED TO BE COMPLETED BY TODAY",
-          Priority: "Hight",
+          Priority: "High",
           Added_On: "07/05/2021",
-          Status: "Done",
+          Status: "Done"
         },
         {
           name: "TASK_1",
           Description: "TASK NEEDED TO BE COMPLETED BY TODAY",
-          Priority: "Hight",
+          Priority: "High",
           Added_On: "07/05/2021",
-          Status: "Done",
+          Status: "Done"
         },
         {
           name: "TASK_2",
           Description: "TASK NEEDED TO BE COMPLETED BY TODAY",
-          Priority: "Hight",
+          Priority: "High",
           Added_On: "07/05/2021",
-          Status: "Done",
+          Status: "Done"
         },
         {
           name: "TASK_3",
           Description: "TASK NEEDED TO BE COMPLETED BY TODAY",
-          Priority: "Hight",
+          Priority: "High",
           Added_On: "07/05/2021",
-          Status: "Done",
+          Status: "Done"
         },
         {
           name: "TASK_4",
           Description: "TASK NEEDED TO BE COMPLETED BY TODAY",
-          Priority: "Hight",
+          Priority: "High",
           Added_On: "07/05/2021",
-          Status: "Done",
+          Status: "Done"
         },
         {
           name: "TASK_05",
           Description: "TASK NEEDED TO BE COMPLETED BY TODAY",
-          Priority: "Hight",
+          Priority: "High",
           Added_On: "07/05/2021",
-          Status: "Done",
+          Status: "Done"
         },
         {
           name: "TASK_06",
           Description: "TASK NEEDED TO BE COMPLETED BY TODAY",
-          Priority: "Hight",
+          Priority: "High",
           Added_On: "07/05/2021",
-          Status: "Done",
+          Status: "Done"
         },
         {
           name: "TASK_07",
           Description: "TASK NEEDED TO BE COMPLETED BY TODAY",
-          Priority: "Hight",
+          Priority: "High",
           Added_On: "07/05/2021",
-          Status: "Done",
+          Status: "Done"
         },
         {
           name: "TASK_08",
           Description: "TASK NEEDED TO BE COMPLETED BY TODAY",
-          Priority: "Hight",
+          Priority: "High",
           Added_On: "07/05/2021",
-          Status: "Done",
+          Status: "Done"
         },
         {
           name: "TASK_09",
           Description: "TASK NEEDED TO BE COMPLETED BY TODAY",
-          Priority: "Hight",
+          Priority: "High",
           Added_On: "07/05/2021",
-          Status: "Done",
-        },
-       
-      ],
+          Status: "Done"
+        }
+      ]
     };
   },
   methods:{
@@ -141,6 +160,8 @@ export default {
    },
    mounted(){
      this.calLength();
+  console.log(this.TodoItems.Status)  
+
    }
   }
 };

@@ -2,9 +2,9 @@
   <div>
     <v-container>
       <v-card class="ma-4 pa-4" elevation="12">
-        <v-card-title class="grey darken-3 white--text rounded dispaly-3"
-          >Add Task in Todo List</v-card-title
-        >
+        <v-card-title class="grey darken-3 white--text rounded dispaly-3">
+          Add Task in Todo List
+        </v-card-title>
         <v-form ref="todoform">
           <v-row class="my-2">
             <v-col lg="6" md="6" sm="12">
@@ -13,6 +13,7 @@
                 label="Task Title"
                 prepend-icon="title"
                 :rules="titleRule"
+                required
               >
               </v-text-field>
             </v-col>
@@ -42,12 +43,16 @@
                     v-model="TodoData.date"
                     label="Select Date"
                     prepend-icon="mdi-calendar"
-                    readonly
                     v-bind="attrs"
                     v-on="on"
-                  ></v-text-field>
+                    required
+                  >
+                  </v-text-field>
                 </template>
-                <v-date-picker v-model="TodoData.date" @input="menu2 = false"></v-date-picker>
+                <v-date-picker
+                  v-model="TodoData.date"
+                  @input="menu2 = false"
+                ></v-date-picker>
               </v-menu>
             </v-col>
             <v-col lg="6" md="6" sm="12">
@@ -55,9 +60,10 @@
                 :items="TodoData.status"
                 label="Select Status"
                 prepend-icon="mdi-list-status"
-                :rules ="statusRule"
+                :rules="statusRule"
                 required
-              ></v-select>
+              >
+              </v-select>
             </v-col>
           </v-row>
           <v-row class="my-2">
@@ -69,6 +75,7 @@
                 counter="100"
                 prepend-icon="message"
                 :rules="descriptionRule"
+                required
               ></v-textarea>
             </v-col>
           </v-row>
@@ -79,9 +86,10 @@
               large
               elevation="12"
               @click="SubmitForm()"
-              dark
-              >Add</v-btn
+              dark 
             >
+              Add
+            </v-btn>
           </v-row>
         </v-form>
       </v-card>
@@ -90,34 +98,34 @@
 </template>
 <script>
 export default {
-  data() {
+  data(){
     return {
-      menu2 : false,
+      menu2: false,
       TodoData: {
         title: "",
-        priorities: ['High' , 'low'],
+        priorities: ["High", "low"],
         date: new Date().toISOString().substr(0, 10),
-        status: ['Completed' , 'About to Complete' , 'Pending'],
+        status: ["Completed", "About to Complete", "Pending"],
         description: "",
       },
       titleRule: [(v) => v.length != 0 || "Title is required"],
-      descriptionRule: [(v) => v.length > 10  || "Description should be about 10 characters"],
+      descriptionRule: [
+        (v) => v.length > 10 || "Description should be about 10 characters",
+      ],
       statusRule: [
-                    (v) => !!v || "Status is required",
-                    (v) =>  (v && v.length > 0) || "Status is required"
-                   ],
+        (v) => !!v || "Status is required",
+        (v) => (v && v.length > 0) || "Status is required",
+      ],
       priorityRule: [
-                    (v) => !!v || "Status is required",
-                    (v) =>  (v && v.length > 0) || "Status is required"
-                   ],
+        (v) => !!v || "Status is required",
+        (v) => (v && v.length > 0) || "Status is required",
+      ],
     };
   },
   methods: {
     SubmitForm() {
       if (this.$refs.todoform.validate()) {
-       if(this.refs.TodoData.status == " "){
-         alert('status required');
-       }
+        return true;
       }
     },
   },

@@ -6,19 +6,14 @@
     </v-main>
   </v-app>
 </template>
-
 <script>
-import Topnav from "./components/Topnav.vue";
-
+import TopNav from "./components/TopNav.vue";
 export default {
-  name: "App",
-
   components: {
-    "top-nav": Topnav,
+    "top-nav": TopNav,
   },
-
-  data: () => ({
-    
-  }),
+  data(){
+    //
+  },
 };
 </script>
