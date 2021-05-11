@@ -12,28 +12,28 @@
           </v-col>
           <v-col cols="4">
             <v-menu
-        v-model="menu2"
-        :close-on-content-click="false"
-        :nudge-right="40"
-        transition="scale-transition"
-        offset-y
-        min-width="auto"
-      >
-        <template v-slot:activator="{ on, attrs }">
-          <v-text-field
-            v-model="date"
-            label="Select Date"
-            prepend-icon="mdi-calendar"
-            readonly
-            v-bind="attrs"
-            v-on="on"
-          ></v-text-field>
-        </template>
-        <v-date-picker
-          v-model="date"
-          @input="menu2 = false"
-        ></v-date-picker>
-      </v-menu>
+              v-model="menu2"
+              :close-on-content-click="false"
+              :nudge-right="40"
+              transition="scale-transition"
+              offset-y
+              min-width="auto"
+            >
+              <template v-slot:activator="{ on, attrs }">
+                <v-text-field
+                  v-model="date"
+                  label="Select Date"
+                  prepend-icon="mdi-calendar"
+                  readonly
+                  v-bind="attrs"
+                  v-on="on"
+                ></v-text-field>
+              </template>
+              <v-date-picker
+                v-model="date"
+                @input="menu2 = false"
+              ></v-date-picker>
+            </v-menu>
           </v-col>
           <v-col cols="4">
             <v-select
@@ -45,7 +45,11 @@
         </v-row>
         <v-data-table :headers="headers" :items="TodoItems" :items-per-page="5">
         </v-data-table>
-        <v-pagination v-model="page" :length="calLength()" class="my-5"></v-pagination>
+        <v-pagination
+          v-model="page"
+          :length="calLength()"
+          class="my-5"
+        ></v-pagination>
       </v-card>
     </v-container>
   </div>
@@ -54,7 +58,7 @@
 export default {
   data() {
     return {
-      menu2:false,
+      menu2: false,
       page: 1,
       date: "",
       search: "",
@@ -142,19 +146,17 @@ export default {
           Added_On: "07/05/2021",
           Status: "Done",
         },
-       
       ],
     };
   },
-  methods:{
-   calLength : function(){
-      return  this.TodoItems.length / 5;
-
-   },
-   mounted(){
-     this.calLength();
-   }
-  }
+  methods: {
+    calLength: function () {
+      return this.TodoItems.length / 5;
+    },
+    mounted() {
+      this.calLength();
+    },
+  },
 };
 </script>
 <style></style>
