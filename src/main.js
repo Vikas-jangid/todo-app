@@ -10,6 +10,7 @@ import Vuetify from 'vuetify/lib';
 /* eslint-disable */
 
 
+
 Vue.config.productionTip = false;
 Vue.use(VueResource);
 Vue.use(Vuetify);
