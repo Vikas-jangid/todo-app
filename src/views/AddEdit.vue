@@ -74,14 +74,15 @@
           </v-row>
           <v-row>
             <v-spacer></v-spacer>
-            <v-btn
+            <router-link to="/" exact>
+              <v-btn
               class="ma-5 pa-5 px-12 white--text"
               large
               elevation="12"
-              @click="SubmitForm()"
+              @click.prevent="SubmitForm()"
               dark
               >Add</v-btn
-            >
+            ></router-link>
           </v-row>
         </v-form>
       </v-card>
@@ -96,7 +97,7 @@ export default {
       TodoData: {
         title: "",
         priorities: ['High' , 'low'],
-        date: new Date().toISOString().substr(0, 10),
+        date: new Date().toISOString().substr(0, 10), 
         status: ['Completed' , 'About to Complete' , 'Pending'],
         description: "",
       },
@@ -113,14 +114,21 @@ export default {
     };
   },
   methods: {
-    SubmitForm() {
+    SubmitForm: function() {
       if (this.$refs.todoform.validate()) {
-       if(this.refs.TodoData.status == " "){
-         alert('status required');
+        this.$http.post("https://localhost:3000/addedit", {
+          title : this.TodoData.title,
+          description : this.TodoData.description,
+          date : this.date,
+          status : this.status,
+          priority : this.priority,
+        }).then(function (data){
+          console.log(data);
+        });
+      
        }
       }
     },
-  },
-};
+  };
 </script>
 <style></style>
