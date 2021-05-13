@@ -1,7 +1,7 @@
-import Vue from "vue";
-import VueRouter from "vue-router";
 import TodoList from "../views/TodoList.vue";
 import AddEdit from "../views/AddEdit.vue";
+import Vue from "vue";
+import VueRouter from "vue-router";
 
 Vue.use(VueRouter);
 

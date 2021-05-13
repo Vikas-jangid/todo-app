@@ -68,6 +68,7 @@ export default {
       status: ["Todo", "In Progress", "Done"],
       headers: [
         { text: "Task", align: "start", sortable: false, value: "name" },
+
         { text: "Description", value: "Description" },
         { text: "Priority", value: "Priority" },
         { text: "Added On", value: "Added_On" },
@@ -85,6 +86,7 @@ export default {
           name: "TASK_1",
           Description: "TASK NEEDED TO BE COMPLETED BY TODAY",
           Priority: "High",
+
           Added_On: "07/05/2021",
           Status: "Done",
         },

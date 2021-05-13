@@ -5,6 +5,7 @@
         <v-card-title class="grey darken-3 white--text rounded dispaly-3">
           Add Task in Todo List
         </v-card-title>
+      
         <v-form ref="todoform">
           <v-row class="my-2">
             <v-col lg="6" md="6" sm="12">
@@ -13,7 +14,6 @@
                 label="Task Title"
                 prepend-icon="title"
                 :rules="titleRule"
-                required
               >
               </v-text-field>
             </v-col>
@@ -42,16 +42,12 @@
                     v-model="TodoData.date"
                     label="Select Date"
                     prepend-icon="mdi-calendar"
+                    readonly
                     v-bind="attrs"
                     v-on="on"
-                    required
-                  >
-                  </v-text-field>
+                  ></v-text-field>
                 </template>
-                <v-date-picker
-                  v-model="TodoData.date"
-                  @input="menu2 = false"
-                ></v-date-picker>
+                <v-date-picker v-model="TodoData.date" @input="menu2 = false"></v-date-picker>
               </v-menu>
             </v-col>
             <v-col lg="6" md="6" sm="12">
@@ -72,7 +68,6 @@
                 counter="100"
                 prepend-icon="message"
                 :rules="descriptionRule"
-                required
               ></v-textarea>
             </v-col>
           </v-row>
@@ -128,6 +123,7 @@ export default {
           .then(function (data) {
             console.log(data);
           });
+    
       }
     },
   },
