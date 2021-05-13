@@ -6,9 +6,6 @@ import VueResource from 'vue-resource'
 import router from "./router/route";
 import Vuetify from 'vuetify/lib';
 
-// prettier-disable-next-line
-/* eslint-disable */
-
 Vue.config.productionTip = false;
 Vue.use(VueResource);
 Vue.use(Vuetify);
