@@ -2,9 +2,9 @@
   <div>
     <v-container>
       <v-card class="ma-4 pa-4" elevation="12">
-        <v-card-title class="grey darken-3 white--text rounded dispaly-3"
-          >Your Todo List</v-card-title
-        >
+        <v-card-title class="grey darken-3 white--text rounded dispaly-3" >
+          Your Todo List
+          </v-card-title>
         <v-divider></v-divider>
         <v-row class="my-2">
           <v-col cols="4">
@@ -29,27 +29,16 @@
                   v-on="on"
                 ></v-text-field>
               </template>
-              <v-date-picker
-                v-model="date"
-                @input="menu2 = false"
-              ></v-date-picker>
+              <v-date-picker v-model="date" @input="menu2 = false"></v-date-picker>
             </v-menu>
           </v-col>
           <v-col cols="4">
-            <v-select
-              :items="TodoItems"
-              label="Search By Status"
-              solo
-            ></v-select>
+            <v-select :items="TodoItems" label="Search By Status" solo></v-select>
           </v-col>
         </v-row>
         <v-data-table :headers="headers" :items="TodoItems" :items-per-page="5">
         </v-data-table>
-        <v-pagination
-          v-model="page"
-          :length="calLength()"
-          class="my-5"
-        ></v-pagination>
+        <v-pagination v-model="page" :length="calLength()" class="my-5"></v-pagination>
       </v-card>
     </v-container>
   </div>
@@ -159,4 +148,3 @@ export default {
   },
 };
 </script>
-<style></style>
