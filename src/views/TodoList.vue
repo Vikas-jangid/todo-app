@@ -36,14 +36,12 @@
             <v-select :items="TodoItems" label="Search By Status" solo></v-select>
           </v-col>
         </v-row>
-
         <v-data-table 
            :headers="headers" 
            :items="TodoItems"
            :items-per-page="5"
            >
         </v-data-table>
-
         <v-pagination v-model="page" :length="calLength()" class="my-5"></v-pagination>
       </v-card>
     </v-container>

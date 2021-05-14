@@ -1,4 +1,3 @@
-
 const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
@@ -19,7 +18,6 @@ app.get('/todolist' , (req , res) => {
             console.log(err);
         }
     })
-
 });
 
 app.post('/addedit' , (req ,res) =>{
