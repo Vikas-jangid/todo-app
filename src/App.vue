@@ -12,8 +12,6 @@ export default {
   components: {
     'top-nav' : TopNav
   },
-  data(){
-  },
   data() {},
 };
 </script>

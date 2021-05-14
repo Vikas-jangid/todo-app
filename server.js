@@ -10,12 +10,9 @@ app.get('/todolist' , (req , res) => {
 
     con.query("SELECT * FROM todolist", (err , rows, fields)=>{
         if(!err){
-            console.log('data loading')
-            console.log(rows[0].task_title, "new");
-            res.send(rows[0].task_title)
+            res.send(rows)
         }
         else{
-            console.log(err);
         }
     })
 });
