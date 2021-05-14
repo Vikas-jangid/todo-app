@@ -37,30 +37,12 @@
           </v-col>
         </v-row>
 
-        <!--data table-->
         <v-data-table 
            :headers="headers" 
            :items="TodoItems"
            :items-per-page="5"
            >
-          <template v-slot:item.actions="{ item }">
-            <v-icon
-              small
-              class="mr-2"
-              @click="editItem(item)"
-            >
-              mdi-pencil
-            </v-icon>
-            <v-icon
-              small
-              @click="deleteItem(item)"
-            >
-              mdi-delete
-            v </v-icon>
-          </template>                       
-       
         </v-data-table>
-        <!-- data table -->
 
         <v-pagination v-model="page" :length="calLength()" class="my-5"></v-pagination>
       </v-card>
@@ -98,7 +80,6 @@ export default {
   },
 
   methods: {
-
     initialize (){
       this.TodoItems = [
         {
@@ -173,16 +154,12 @@ export default {
         },
       ]
     },
-
-
-
-
     calLength: function () {
       return this.TodoItems.length / 5;
-    },
-    mounted() {
-      this.calLength();
-    },
+    }
+  },
+  mounted() {
+    this.calLength();
   },
 };
 </script>
