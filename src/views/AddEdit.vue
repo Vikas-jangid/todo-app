@@ -85,10 +85,10 @@
                 dark
                 elevation="12"
                 @click.prevent="SubmitForm()"
-              >
+                >
                 Add
               </v-btn>
-            </router-link>
+              </router-link>
           </v-row>
         </v-form>
       </v-card>
