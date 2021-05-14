@@ -1,11 +1,11 @@
 <template>
   <div>
-    <v-toolbar app flat color="pink darken-1  white--text">
-      <v-app-bar-nav-icon 
+    <v-toolbar app flat color="pink darken-1  white--text  ">
+      <v-app-bar-nav-icon
         right
         @click="drawer = !drawer"
         fab
-        color="white"
+        color="white "
       ></v-app-bar-nav-icon>
       <v-toolbar-title>
         <span class="font-weight-light white--text">TODO</span>
@@ -42,7 +42,7 @@
 </template>
 <script>
 export default {
-  data(){
+  data() {
     return {
       drawer: false,
       selectedItem: 1,
@@ -54,3 +54,4 @@ export default {
   },
 };
 </script>
+<style></style>

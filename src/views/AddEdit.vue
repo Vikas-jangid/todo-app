@@ -123,9 +123,8 @@ export default {
           .then(function (data) {
             console.log(data);
           });
-    
       }
-    },
+    }
   },
 };
 </script>
