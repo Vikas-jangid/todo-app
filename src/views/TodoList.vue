@@ -36,8 +36,32 @@
             <v-select :items="TodoItems" label="Search By Status" solo></v-select>
           </v-col>
         </v-row>
-        <v-data-table :headers="headers" :items="TodoItems" :items-per-page="5">
+
+        <!--data table-->
+        <v-data-table 
+           :headers="headers" 
+           :items="TodoItems"
+           :items-per-page="5"
+           >
+          <template v-slot:item.actions="{ item }">
+            <v-icon
+              small
+              class="mr-2"
+              @click="editItem(item)"
+            >
+              mdi-pencil
+            </v-icon>
+            <v-icon
+              small
+              @click="deleteItem(item)"
+            >
+              mdi-delete
+            v </v-icon>
+          </template>                       
+       
         </v-data-table>
+        <!-- data table -->
+
         <v-pagination v-model="page" :length="calLength()" class="my-5"></v-pagination>
       </v-card>
     </v-container>
@@ -64,7 +88,19 @@ export default {
         { text: "Added On", value: "Added_On" },
         { text: "Status", value: "Status" },
       ],
-      TodoItems: [
+      TodoItems: [],
+
+    };
+  },
+
+  created(){
+    this.initialize()
+  },
+
+  methods: {
+
+    initialize (){
+      this.TodoItems = [
         {
           name: "TASK_0",
           Description: "TASK NEEDED TO BE COMPLETED BY TODAY",
@@ -135,10 +171,12 @@ export default {
           Added_On: "07/05/2021",
           Status: "Done",
         },
-      ],
-    };
-  },
-  methods: {
+      ]
+    },
+
+
+
+
     calLength: function () {
       return this.TodoItems.length / 5;
     },
