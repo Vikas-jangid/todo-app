@@ -2,15 +2,15 @@
   <div>
     <v-container>
       <v-card class="ma-4 pa-4" elevation="12">
-        <v-card-title class="grey darken-3 white--text rounded dispaly-3"
-          >Your Todo List</v-card-title
-        >
+        <v-card-title class="grey darken-3 white--text rounded dispaly-3">
+          Your Todo List
+        </v-card-title>
         <v-divider></v-divider>
         <v-row class="my-2">
-          <v-col cols="4">
+          <v-col cols="4" lg="4" md="4" sm="6" xs="12">
             <v-text-field placeholder="search by title" solo></v-text-field>
           </v-col>
-          <v-col cols="4">
+          <v-col cols="4" lg="4" md="4" sm="6" xs="12">
             <v-menu
               v-model="menu2"
               :close-on-content-click="false"
@@ -22,34 +22,37 @@
               <template v-slot:activator="{ on, attrs }">
                 <v-text-field
                   v-model="date"
-                  label="Select Date"
+                  label="Search by Date"
                   prepend-icon="mdi-calendar"
-                  readonly
                   v-bind="attrs"
                   v-on="on"
-                ></v-text-field>
+                  required
+                  solo
+                >
+                </v-text-field>
               </template>
-              <v-date-picker
-                v-model="date"
-                @input="menu2 = false"
-              ></v-date-picker>
+              <v-date-picker v-model="date" @input="menu2 = false"></v-date-picker>
             </v-menu>
           </v-col>
-          <v-col cols="4">
-            <v-select
-              :items="TodoItems"
-              label="Search By Status"
-              solo
-            ></v-select>
+          <v-col cols="4" lg="4" md="4" sm="6" xs="12">
+            <v-select :items="TodoItems.status" label="Search By Status" solo></v-select>
           </v-col>
         </v-row>
         <v-data-table :headers="headers" :items="TodoItems" :items-per-page="5">
+          <template v-slot:extension>
+            <v-btn
+              fab
+              color="cyan accent-2"
+              bottom
+              left
+              absolute
+              @click="dialog = !dialog"
+            >
+              <v-icon>mdi-plus</v-icon>
+            </v-btn>
+          </template>
         </v-data-table>
-        <v-pagination
-          v-model="page"
-          :length="calLength()"
-          class="my-5"
-        ></v-pagination>
+        <v-pagination v-model="page" :length="calLength()" class="my-5"></v-pagination>
       </v-card>
     </v-container>
   </div>
@@ -62,14 +65,10 @@ export default {
       page: 1,
       date: "",
       search: "",
-      status: "",
+      status: ["Todo", "In Progress", "Done"],
       headers: [
-        {
-          text: "Task",
-          align: "start",
-          sortable: false,
-          value: "name",
-        },
+        { text: "Task", align: "start", sortable: false, value: "name" },
+
         { text: "Description", value: "Description" },
         { text: "Priority", value: "Priority" },
         { text: "Added On", value: "Added_On" },
@@ -79,70 +78,71 @@ export default {
         {
           name: "TASK_0",
           Description: "TASK NEEDED TO BE COMPLETED BY TODAY",
-          Priority: "Hight",
+          Priority: "High",
           Added_On: "07/05/2021",
           Status: "Done",
         },
         {
           name: "TASK_1",
           Description: "TASK NEEDED TO BE COMPLETED BY TODAY",
-          Priority: "Hight",
+          Priority: "High",
+
           Added_On: "07/05/2021",
           Status: "Done",
         },
         {
           name: "TASK_2",
           Description: "TASK NEEDED TO BE COMPLETED BY TODAY",
-          Priority: "Hight",
+          Priority: "High",
           Added_On: "07/05/2021",
           Status: "Done",
         },
         {
           name: "TASK_3",
           Description: "TASK NEEDED TO BE COMPLETED BY TODAY",
-          Priority: "Hight",
+          Priority: "High",
           Added_On: "07/05/2021",
           Status: "Done",
         },
         {
           name: "TASK_4",
           Description: "TASK NEEDED TO BE COMPLETED BY TODAY",
-          Priority: "Hight",
+          Priority: "High",
           Added_On: "07/05/2021",
           Status: "Done",
         },
         {
           name: "TASK_05",
           Description: "TASK NEEDED TO BE COMPLETED BY TODAY",
-          Priority: "Hight",
+          Priority: "High",
           Added_On: "07/05/2021",
           Status: "Done",
         },
         {
           name: "TASK_06",
           Description: "TASK NEEDED TO BE COMPLETED BY TODAY",
-          Priority: "Hight",
+          Priority: "High",
           Added_On: "07/05/2021",
           Status: "Done",
         },
         {
           name: "TASK_07",
           Description: "TASK NEEDED TO BE COMPLETED BY TODAY",
-          Priority: "Hight",
+          Priority: "High",
           Added_On: "07/05/2021",
           Status: "Done",
         },
         {
           name: "TASK_08",
           Description: "TASK NEEDED TO BE COMPLETED BY TODAY",
-          Priority: "Hight",
+          Priority: "High",
           Added_On: "07/05/2021",
           Status: "Done",
         },
         {
           name: "TASK_09",
           Description: "TASK NEEDED TO BE COMPLETED BY TODAY",
-          Priority: "Hight",
+          Priority: "High",
           Added_On: "07/05/2021",
           Status: "Done",
         },
@@ -155,8 +155,8 @@ export default {
     },
     mounted() {
       this.calLength();
+      console.log(this.TodoItems.Status);
     },
   },
 };
 </script>
-<style></style>
