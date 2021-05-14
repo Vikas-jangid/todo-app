@@ -14,13 +14,11 @@ app.get('/todolist' , (req , res) => {
             console.log('data loading')
             console.log(rows[0].task_title, "new");
             res.send(rows[0].task_title)
-        //  console.log(fields);
         }
         else{
             console.log(err);
         }
     })
-
 
 });
 
