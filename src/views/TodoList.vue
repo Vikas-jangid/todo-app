@@ -40,6 +40,7 @@
            :headers="headers" 
            :items="TodoItems"
            :items-per-page="5"
+           hide-actions
            >
         </v-data-table>
         <v-pagination v-model="page" :length="calLength()" class="my-5"></v-pagination>
@@ -61,12 +62,12 @@ export default {
           text: "Task",
           align: "start",
           sortable: false,
-          value: "name",
+          value: "task_title",
         },
-        { text: "Description", value: "Description" },
-        { text: "Priority", value: "Priority" },
-        { text: "Added On", value: "Added_On" },
-        { text: "Status", value: "Status" },
+        { text: "Description", value: "task_description" },
+        { text: "Priority", value: "task_priority" },
+        { text: "Added On", value: "added_on" },
+        { text: "Status", value: "task_status" },
       ],
       TodoItems: [],
 
@@ -77,11 +78,12 @@ export default {
     // this.initialize();
 
     this.$http.get('http://localhost:3000/todolist').then(data=>{
-      for (var items of data.body) {
-       var todoItems = items;
-       this.TodoItems = todoItems.task_title
-       console.log(this.TodoItems)
-      }
+      // for (var items of data.body) {
+      //  var todoItems = items;
+      //  this.TodoItems = todoItems.task_title
+      //  console.log(this.TodoItems)
+      // }
+      this.TodoItems = data.body
     },
     error => {console.log(error)})
     
