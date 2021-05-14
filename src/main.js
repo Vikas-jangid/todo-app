@@ -5,7 +5,7 @@ import 'material-design-icons-iconfont/dist/material-design-icons.css'
 import VueResource from 'vue-resource'
 import router from "./router/route";
 import Vuetify from 'vuetify/lib';
-
+/* eslint-disable */
 Vue.config.productionTip = false;
 Vue.use(VueResource);
 Vue.use(Vuetify);

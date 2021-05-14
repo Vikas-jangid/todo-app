@@ -74,90 +74,29 @@ export default {
   },
 
   created(){
-    this.initialize()
+    // this.initialize();
+
+    this.$http.get('http://localhost:3000/todolist').then(data=>{
+      for (var items of data.body) {
+       var todoItems = items;
+       this.TodoItems = todoItems.task_title
+       console.log(this.TodoItems)
+      }
+    },
+    error => {console.log(error)})
+    
   },
 
   methods: {
-    initialize (){
-      this.TodoItems = [
-        {
-          name: "TASK_0",
-          Description: "TASK NEEDED TO BE COMPLETED BY TODAY",
-          Priority: "Hight",
-          Added_On: "07/05/2021",
-          Status: "Done",
-        },
-        {
-          name: "TASK_1",
-          Description: "TASK NEEDED TO BE COMPLETED BY TODAY",
-          Priority: "Hight",
-          Added_On: "07/05/2021",
-          Status: "Done",
-        },
-        {
-          name: "TASK_2",
-          Description: "TASK NEEDED TO BE COMPLETED BY TODAY",
-          Priority: "Hight",
-          Added_On: "07/05/2021",
-          Status: "Done",
-        },
-        {
-          name: "TASK_3",
-          Description: "TASK NEEDED TO BE COMPLETED BY TODAY",
-          Priority: "Hight",
-          Added_On: "07/05/2021",
-          Status: "Done",
-        },
-        {
-          name: "TASK_4",
-          Description: "TASK NEEDED TO BE COMPLETED BY TODAY",
-          Priority: "Hight",
-          Added_On: "07/05/2021",
-          Status: "Done",
-        },
-        {
-          name: "TASK_05",
-          Description: "TASK NEEDED TO BE COMPLETED BY TODAY",
-          Priority: "Hight",
-          Added_On: "07/05/2021",
-          Status: "Done",
-        },
-        {
-          name: "TASK_06",
-          Description: "TASK NEEDED TO BE COMPLETED BY TODAY",
-          Priority: "Hight",
-          Added_On: "07/05/2021",
-          Status: "Done",
-        },
-        {
-          name: "TASK_07",
-          Description: "TASK NEEDED TO BE COMPLETED BY TODAY",
-          Priority: "Hight",
-          Added_On: "07/05/2021",
-          Status: "Done",
-        },
-        {
-          name: "TASK_08",
-          Description: "TASK NEEDED TO BE COMPLETED BY TODAY",
-          Priority: "Hight",
-          Added_On: "07/05/2021",
-          Status: "Done",
-        },
-        {
-          name: "TASK_09",
-          Description: "TASK NEEDED TO BE COMPLETED BY TODAY",
-          Priority: "Hight",
-          Added_On: "07/05/2021",
-          Status: "Done",
-        },
-      ]
-    },
+
     calLength: function () {
       return this.TodoItems.length / 5;
     }
   },
   mounted() {
-    this.calLength();
-  },
+
+  this.calLength();
+
+},
 };
 </script>
