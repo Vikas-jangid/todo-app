@@ -2,9 +2,9 @@
   <div>
     <v-container>
       <v-card class="ma-4 pa-4" elevation="12">
-        <v-card-title class="grey darken-3 white--text rounded dispaly-3" >
+        <v-card-title class="grey darken-3 white--text rounded dispaly-3">
           Your Todo List
-          </v-card-title>
+        </v-card-title>
         <v-divider></v-divider>
         <v-row class="my-2">
           <v-col cols="4">
@@ -33,15 +33,30 @@
             </v-menu>
           </v-col>
           <v-col cols="4">
-            <v-select :items="TodoItems" label="Search By Status" solo></v-select>
+            <v-select :items="status" label="Search By Status" solo></v-select>
           </v-col>
         </v-row>
-        <v-data-table 
-           :headers="headers" 
-           :items="TodoItems"
-           :items-per-page="5"
-           hide-actions
-           >
+        <v-data-table
+          :headers="headers"
+          :items="TodoItems"
+          :items-per-page="5"
+          hide-actions
+        >
+        <!-- <template v-slot:item.actions="{ item }">
+          <v-icon
+            small
+            class="mr-2"
+            @click="editItem(item)"
+          >
+            mdi-pencil
+          </v-icon>
+          <v-icon
+            small
+            @click="deleteItem(item)"
+          >
+            mdi-delete
+          </v-icon>
+        </template>  -->
         </v-data-table>
         <v-pagination v-model="page" :length="calLength()" class="my-5"></v-pagination>
       </v-card>
@@ -56,49 +71,38 @@ export default {
       page: 1,
       date: "",
       search: "",
-      status: "",
+      status: ["Todo", "In Progress", "Done"],
+
       headers: [
-        {
-          text: "Task",
-          align: "start",
-          sortable: false,
-          value: "task_title",
-        },
+        { text: "Task", align: "start", sortable: false, value: "task_title", },
         { text: "Description", value: "task_description" },
         { text: "Priority", value: "task_priority" },
         { text: "Added On", value: "added_on" },
         { text: "Status", value: "task_status" },
       ],
       TodoItems: [],
-
     };
   },
 
-  created(){
-    // this.initialize();
-
-    this.$http.get('http://localhost:3000/todolist').then(data=>{
-      // for (var items of data.body) {
-      //  var todoItems = items;
-      //  this.TodoItems = todoItems.task_title
-      //  console.log(this.TodoItems)
-      // }
-      this.TodoItems = data.body
-    },
-    error => {console.log(error)})
-    
+  created() {
+    this.$http.get("http://localhost:3000/todolist").then(
+      (data) => {
+        this.TodoItems = data.body;
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
   },
 
   methods: {
-
     calLength: function () {
       return this.TodoItems.length / 5;
-    }
+    },
+    
   },
   mounted() {
-
-  this.calLength();
-
-},
+    this.calLength();
+  },
 };
 </script>

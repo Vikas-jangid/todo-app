@@ -5,7 +5,7 @@
         <v-card-title class="grey darken-3 white--text rounded dispaly-3">
           Add Task in Todo List
         </v-card-title>
-        <v-form ref="todoform">
+        <v-form ref="todoform" method="post">
           <v-row class="my-2">
             <v-col lg="6" md="6" sm="12">
               <v-text-field
@@ -21,8 +21,9 @@
               <v-select
                 item-text="priority"
                 prepend-icon="mdi-priority-high"
-                v-model="TodoData.defaultSelected"
-                :items="TodoData.priorities"
+                v-model="TodoData.priority"
+                :items="priorities"
+                :item-value = "Low"
               >
               </v-select>
             </v-col>
@@ -56,10 +57,11 @@
             </v-col>
             <v-col lg="6" md="6" sm="12">
               <v-select
-                :items="TodoData.status"
+                :items="status"
                 prepend-icon="mdi-list-status"
                 item-text="status"
-                v-model="TodoData.defaultSelected"
+                v-model="TodoData.status"
+                :item-value = "Todo"
               ></v-select>
             </v-col>
           </v-row>
@@ -78,17 +80,15 @@
           </v-row>
           <v-row>
             <v-spacer></v-spacer>
-            <router-link to="/todolist" class="text-decoration-none" exact>
               <v-btn
                 class="ma-5 pa-5 px-12 white--text"
                 large
                 dark
                 elevation="12"
-                @click.prevent="SubmitForm()"
+                @click="SubmitForm()"
                 >
                 Add
               </v-btn>
-              </router-link>
           </v-row>
         </v-form>
       </v-card>
@@ -100,12 +100,16 @@ export default {
   data() {
     return {
       menu2: false,
+      status: ["Todo", "In Progress", "Done"],
+      defaultSelected: { priority: "Low", status: "Todo" },
+      priorities: ["Low", "High", "Very High"],
+
+
       TodoData: {
         title: "",
-        priorities: ["Low", "High", "Very High"],
-        defaultSelected: { priority: "Low", status: "Todo" },
         date: new Date().toISOString().substr(0, 10),
-        status: ["Todo", "In Progress", "Done"],
+        status : "",
+        priority : "",
         description: "",
       },
       titleRule: [(v) => v.length != 0 || "Title is required"],
@@ -117,14 +121,17 @@ export default {
   methods: {
     SubmitForm: function () {
       if (this.$refs.todoform.validate()) {
+        
         this.$http
-          .get("https://localhost:3000/addedit", {
-            // task_title: this.TodoData.title,
-            // task_description: this.TodoData.description,
-            // added_on: this.TodoData.date,
-            // task_status: this.TodoData.status,
-            // task_priority: this.TodoData.priority,
+          .post("http://localhost:3000/add",
+          {
+            task_title : this.TodoData.title,
+            task_description : this.TodoData.description,
+             task_status : this.TodoData.status,
+             added_on : this.TodoData.date,
+             task_priority : this.TodoData.priority
           })
+          
           .then(function (data) {
             console.log(data);
           });
