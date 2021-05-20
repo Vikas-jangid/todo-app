@@ -7,6 +7,7 @@ Vue.use(VueRouter);
 
 const routes = [
   { path: "/", name: "todolist", component: TodoList },
+  { path: "/addedit/:task_id", name: "addedit", component: AddEdit },
   { path: "/addedit", name: "addedit", component: AddEdit },
 ];
 

@@ -8,7 +8,7 @@
         <v-divider></v-divider>
         <v-row class="my-2">
           <v-col cols="4">
-            <v-text-field placeholder="search by title" solo></v-text-field>
+            <v-text-field placeholder="search by title" v-model="search" solo></v-text-field>
           </v-col>
           <v-col cols="4">
             <v-menu
@@ -29,7 +29,10 @@
                   v-on="on"
                 ></v-text-field>
               </template>
-              <v-date-picker v-model="date" @input="menu2 = false"></v-date-picker>
+              <v-date-picker
+                v-model="date"
+                @input="menu2 = false"
+              ></v-date-picker>
             </v-menu>
           </v-col>
           <v-col cols="4">
@@ -38,32 +41,46 @@
         </v-row>
         <v-data-table
           :headers="headers"
-          :items="TodoItems"
+          :items="filterItem"
           :items-per-page="5"
           hide-actions
         >
-        <!-- <template v-slot:item.actions="{ item }">
-          <v-icon
-            small
-            class="mr-2"
-            @click="editItem(item)"
-          >
-            mdi-pencil
-          </v-icon>
-          <v-icon
-            small
-            @click="deleteItem(item)"
-          >
-            mdi-delete
-          </v-icon>
-        </template>  -->
+          <template v-slot:body="{ items }">
+            <tbody>
+              <tr
+                v-for="item in items"
+                :key="item.name"
+                @click="selectedItem = item.name"
+              >
+                <td>{{ item.task_title }}</td>
+                <td>{{ item.task_description }}</td>
+                <td>{{ item.task_status }}</td>
+                <td>{{ item.added_on }}</td>
+                <td>{{ item.task_priority }}</td>
+                <td>
+                  <router-link class="text-decoration-none" :to="{ path: `/addedit/${item.task_id}`}" >
+                  <v-icon small class="mr-2" 
+                    >mdi-pencil</v-icon
+                  ></router-link>
+                  <v-icon small @click="deleteTask(item.task_id)">
+                    mdi-delete
+                  </v-icon>
+                </td>
+              </tr>
+            </tbody>
+          </template>
         </v-data-table>
-        <v-pagination v-model="page" :length="calLength()" class="my-5"></v-pagination>
+        <v-pagination
+          v-model="page"
+          :length="calLength(task_id)"
+          class="my-5"
+        ></v-pagination>
       </v-card>
     </v-container>
   </div>
 </template>
 <script>
+import searchMixin from "../mixins/searchMixin";
 export default {
   data() {
     return {
@@ -71,18 +88,23 @@ export default {
       page: 1,
       date: "",
       search: "",
+      searchStatus:"",
+      searchDate:"",
       status: ["Todo", "In Progress", "Done"],
 
       headers: [
-        { text: "Task", align: "start", sortable: false, value: "task_title", },
+        // { text: "Task_id", align: "start", sortable: false, value: "task_id" },
+        { text: "Task", align: "start", sortable: false, value: "task_title" },
         { text: "Description", value: "task_description" },
         { text: "Priority", value: "task_priority" },
         { text: "Added On", value: "added_on" },
         { text: "Status", value: "task_status" },
+        { text: "Action", value: "action" },
       ],
       TodoItems: [],
     };
   },
+    mixins: [searchMixin],
 
   created() {
     this.$http.get("http://localhost:3000/todolist").then(
@@ -94,10 +116,16 @@ export default {
       }
     );
   },
-
   methods: {
     calLength: function () {
       return this.TodoItems.length / 5;
+    },
+    deleteTask: function (id) {
+      this.$http.delete("http://localhost:3000/delete/" + id).then(() => {
+        //  alert('data Deleted' , id);
+        this.$swal("Good job!", "Task Deleted Successfully!", "success");
+        this.$refs.datatable.clear();
+      });
     },
     
   },

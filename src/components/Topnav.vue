@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-toolbar app flat color="pink darken-1  white--text">
-      <v-app-bar-nav-icon 
+      <v-app-bar-nav-icon
         right
         @click="drawer = !drawer"
         fab
@@ -42,7 +42,7 @@
 </template>
 <script>
 export default {
-  data(){
+  data() {
     return {
       drawer: false,
       selectedItem: 1,
