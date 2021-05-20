@@ -2,13 +2,13 @@
   <div>
     <v-container>
       <v-card class="ma-4 pa-4" elevation="12">
-        <v-card-title class="grey darken-3 white--text rounded dispaly-3" >
+        <v-card-title class="grey darken-3 white--text rounded dispaly-3">
           Your Todo List
-          </v-card-title>
+        </v-card-title>
         <v-divider></v-divider>
         <v-row class="my-2">
           <v-col cols="4">
-            <v-text-field placeholder="search by title" solo></v-text-field>
+            <v-text-field placeholder="search by title" v-model="search" solo></v-text-field>
           </v-col>
           <v-col cols="4">
             <v-menu
@@ -29,25 +29,58 @@
                   v-on="on"
                 ></v-text-field>
               </template>
-              <v-date-picker v-model="date" @input="menu2 = false"></v-date-picker>
+              <v-date-picker
+                v-model="date"
+                @input="menu2 = false"
+              ></v-date-picker>
             </v-menu>
           </v-col>
           <v-col cols="4">
-            <v-select :items="TodoItems" label="Search By Status" solo></v-select>
+            <v-select :items="status" label="Search By Status" solo></v-select>
           </v-col>
         </v-row>
-        <v-data-table 
-           :headers="headers" 
-           :items="TodoItems"
-           :items-per-page="5"
-           >
+        <v-data-table
+          :headers="headers"
+          :items="filterItem"
+          :items-per-page="5"
+          hide-actions
+        >
+          <template v-slot:body="{ items }">
+            <tbody>
+              <tr
+                v-for="item in items"
+                :key="item.name"
+                @click="selectedItem = item.name"
+              >
+                <td>{{ item.task_title }}</td>
+                <td>{{ item.task_description }}</td>
+                <td>{{ item.task_status }}</td>
+                <td>{{ item.added_on }}</td>
+                <td>{{ item.task_priority }}</td>
+                <td>
+                  <router-link class="text-decoration-none" :to="{ path: `/addedit/${item.task_id}`}" >
+                  <v-icon small class="mr-2" 
+                    >mdi-pencil</v-icon
+                  ></router-link>
+                  <v-icon small @click="deleteTask(item.task_id)">
+                    mdi-delete
+                  </v-icon>
+                </td>
+              </tr>
+            </tbody>
+          </template>
         </v-data-table>
-        <v-pagination v-model="page" :length="calLength()" class="my-5"></v-pagination>
+        <v-pagination
+          v-model="page"
+          :length="calLength(task_id)"
+          class="my-5"
+        ></v-pagination>
       </v-card>
     </v-container>
   </div>
 </template>
 <script>
+import searchMixin from "../mixins/searchMixin";
 export default {
   data() {
     return {
@@ -55,106 +88,46 @@ export default {
       page: 1,
       date: "",
       search: "",
-      status: "",
+      searchStatus:"",
+      searchDate:"",
+      status: ["Todo", "In Progress", "Done"],
+
       headers: [
-        {
-          text: "Task",
-          align: "start",
-          sortable: false,
-          value: "name",
-        },
-        { text: "Description", value: "Description" },
-        { text: "Priority", value: "Priority" },
-        { text: "Added On", value: "Added_On" },
-        { text: "Status", value: "Status" },
+        // { text: "Task_id", align: "start", sortable: false, value: "task_id" },
+        { text: "Task", align: "start", sortable: false, value: "task_title" },
+        { text: "Description", value: "task_description" },
+        { text: "Priority", value: "task_priority" },
+        { text: "Added On", value: "added_on" },
+        { text: "Status", value: "task_status" },
+        { text: "Action", value: "action" },
       ],
       TodoItems: [],
-
     };
   },
+    mixins: [searchMixin],
 
-  created(){
-    this.initialize()
+  created() {
+    this.$http.get("http://localhost:3000/todolist").then(
+      (data) => {
+        this.TodoItems = data.body;
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
   },
-
   methods: {
-    initialize (){
-      this.TodoItems = [
-        {
-          name: "TASK_0",
-          Description: "TASK NEEDED TO BE COMPLETED BY TODAY",
-          Priority: "Hight",
-          Added_On: "07/05/2021",
-          Status: "Done",
-        },
-        {
-          name: "TASK_1",
-          Description: "TASK NEEDED TO BE COMPLETED BY TODAY",
-          Priority: "Hight",
-          Added_On: "07/05/2021",
-          Status: "Done",
-        },
-        {
-          name: "TASK_2",
-          Description: "TASK NEEDED TO BE COMPLETED BY TODAY",
-          Priority: "Hight",
-          Added_On: "07/05/2021",
-          Status: "Done",
-        },
-        {
-          name: "TASK_3",
-          Description: "TASK NEEDED TO BE COMPLETED BY TODAY",
-          Priority: "Hight",
-          Added_On: "07/05/2021",
-          Status: "Done",
-        },
-        {
-          name: "TASK_4",
-          Description: "TASK NEEDED TO BE COMPLETED BY TODAY",
-          Priority: "Hight",
-          Added_On: "07/05/2021",
-          Status: "Done",
-        },
-        {
-          name: "TASK_05",
-          Description: "TASK NEEDED TO BE COMPLETED BY TODAY",
-          Priority: "Hight",
-          Added_On: "07/05/2021",
-          Status: "Done",
-        },
-        {
-          name: "TASK_06",
-          Description: "TASK NEEDED TO BE COMPLETED BY TODAY",
-          Priority: "Hight",
-          Added_On: "07/05/2021",
-          Status: "Done",
-        },
-        {
-          name: "TASK_07",
-          Description: "TASK NEEDED TO BE COMPLETED BY TODAY",
-          Priority: "Hight",
-          Added_On: "07/05/2021",
-          Status: "Done",
-        },
-        {
-          name: "TASK_08",
-          Description: "TASK NEEDED TO BE COMPLETED BY TODAY",
-          Priority: "Hight",
-          Added_On: "07/05/2021",
-          Status: "Done",
-        },
-        {
-          name: "TASK_09",
-          Description: "TASK NEEDED TO BE COMPLETED BY TODAY",
-          Priority: "Hight",
-          Added_On: "07/05/2021",
-          Status: "Done",
-        },
-      ]
-    },
     calLength: function () {
       return this.TodoItems.length / 5;
-    }
+    },
+    deleteTask: function (id) {
+      this.$http.delete("http://localhost:3000/delete/" + id).then(() => {
+        //  alert('data Deleted' , id);
+        this.$swal("Good job!", "Task Deleted Successfully!", "success");
+        this.$refs.datatable.clear();
+      });
+    },
+    
   },
   mounted() {
     this.calLength();
