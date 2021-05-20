@@ -157,11 +157,10 @@ export default {
             this.$swal("Task Updated Successfully");
           });
       }
-
     }
   },
   mounted() {
     this.edit();
-  },
+    }
 };
 </script>
