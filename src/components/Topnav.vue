@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-app-bar app  flat color="grey darken-3 ">
+    <v-app-bar app flat color="grey darken-3 ">
       <v-app-bar-nav-icon
         right
         @click="drawer = !drawer"
@@ -8,24 +8,25 @@
         color="white "
       ></v-app-bar-nav-icon>
       <v-toolbar-title>
-            <span class="font-weight-bold white--text">TODO</span>
-            <span class="white--text text-weight-bold darkern--text--1">APP</span>
+        <span class="font-weight-bold white--text">TODO</span>
+        <span class="white--text text-weight-bold darkern--text--1">APP</span>
       </v-toolbar-title>
       <v-spacer></v-spacer>
-        <v-img 
-              max-height="100%"
-              max-width="15%"
-              pa-2
-              right
-              src="../assets/InfoLOGO.png">
-            </v-img>
+      <v-img
+        max-height="100%"
+        max-width="15%"
+        pa-2
+        right
+        src="../assets/InfoLOGO.png"
+      >
+      </v-img>
     </v-app-bar>
-    <v-navigation-drawer app v-model="drawer" color="grey lighten-3" >
+    <v-navigation-drawer app v-model="drawer" color="grey lighten-3">
       <v-list>
         <div>
-        <h3 class="pa-4 font-weight-normal">Todo Menu</h3>
+          <h3 class="pa-4 font-weight-normal">Todo Menu</h3>
         </div>
-        <v-list-item-group v-model="selectedItem" class=" mt-2">
+        <v-list-item-group v-model="selectedItem" class="mt-2">
           <v-list-item
             v-for="(link, i) in links"
             :key="i"
