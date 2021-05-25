@@ -162,6 +162,6 @@ export default {
   },
   mounted() {
     this.edit();
-  },
+    }
 };
 </script>

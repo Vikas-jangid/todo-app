@@ -5,7 +5,7 @@
         right
         @click="drawer = !drawer"
         fab
-        color="white"
+        color="white "
       ></v-app-bar-nav-icon>
       <v-toolbar-title>
             <span class="font-weight-bold white--text">TODO</span>
