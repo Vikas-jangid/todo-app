@@ -1,79 +1,124 @@
 <template>
   <div>
     <v-container>
-      <v-card class="ma-4 pa-4" elevation="12">
+      <v-card class="pa-2" elevation="12">
         <v-card-title class="grey darken-3 white--text rounded dispaly-3">
           Your Todo List
         </v-card-title>
-        <v-divider></v-divider>
-        <v-row class="my-2">
-          <v-col cols="4">
-            <v-text-field placeholder="search by title" v-model="search" solo></v-text-field>
-          </v-col>
-          <v-col cols="4">
-            <v-menu
-              v-model="menu2"
-              :close-on-content-click="false"
-              :nudge-right="40"
-              transition="scale-transition"
-              offset-y
-              min-width="auto"
-            >
-              <template v-slot:activator="{ on, attrs }">
+        <template >
+          <v-expansion-panels flat>
+          <v-expansion-panel
+          v-for="(item,i) in 1"
+          :key="i"
+          >
+          <v-expansion-panel-header>
+           <h2>Filters</h2>
+          </v-expansion-panel-header>
+          <v-expansion-panel-content>
+            <v-row class="px-5">
+              <v-col cols="4">
                 <v-text-field
-                  v-model="date"
-                  label="Select Date"
-                  prepend-icon="mdi-calendar"
-                  readonly
-                  v-bind="attrs"
-                  v-on="on"
+                  placeholder="Search by title"
+                  v-model="searchTitle"
                 ></v-text-field>
-              </template>
-              <v-date-picker
-                v-model="date"
-                @input="menu2 = false"
-              ></v-date-picker>
-            </v-menu>
-          </v-col>
-          <v-col cols="4">
-            <v-select :items="status" label="Search By Status" solo></v-select>
-          </v-col>
-        </v-row>
+            </v-col>
+            <v-col cols="4">
+              <v-menu
+                v-model="menu2"
+                :close-on-content-click="false"
+                :nudge-right="40"
+                transition="scale-transition"
+                offset-y
+                min-width="auto"
+              >
+                <template v-slot:activator="{ on, attrs }">
+                  <v-text-field
+                    v-model="searchDate"
+                    label="Search by Date"
+                    prepend-icon="mdi-calendar"
+                    readonly
+                    v-bind="attrs"
+                    v-on="on"
+                  ></v-text-field>
+                </template>
+                <v-date-picker v-model="searchDate" @input="menu2 = false"></v-date-picker>
+              </v-menu>
+            </v-col>
+            <v-col cols="4">
+              <v-select
+                :items="status"
+                label="Search By Status"
+                v-model="searchStatus"
+              ></v-select>
+            </v-col>
+          </v-row>
+          </v-expansion-panel-content>
+          </v-expansion-panel>
+        </v-expansion-panels>
+        </template>
+        
         <v-data-table
           :headers="headers"
-          :items="filterItem"
+          :items="paginatedData()"
           :items-per-page="5"
-          hide-actions
+          hide-default-footer
+          class="pa-4"
         >
           <template v-slot:body="{ items }">
-            <tbody>
+            <tbody ref="dataTable">
               <tr
                 v-for="item in items"
-                :key="item.name"
-                @click="selectedItem = item.name"
+                :key="item.task_id"
+                @click="selectedItem = item.task_id"
               >
+                <td>{{ item.task_id }}</td>
                 <td>{{ item.task_title }}</td>
                 <td>{{ item.task_description }}</td>
-                <td>{{ item.task_status }}</td>
-                <td>{{ item.added_on }}</td>
                 <td>{{ item.task_priority }}</td>
+                <td>{{ item.added_on.substr(0, 10) }}</td>
+                  <td>
+                      <v-chip
+                        class="ma-2"
+                        color="warning"
+                        v-if="item.task_status == status[0]"
+                      >
+                      {{item.task_status}}
+                      </v-chip>
+                      <v-chip
+                      class="ma-2"
+                      color="yellow"
+                      v-if="item.task_status == status[1]"
+                      >
+                      {{item.task_status}}
+                      </v-chip>
+                      <v-chip
+                      class="ma-2"
+                      color="success"
+                      v-if="item.task_status == status[2]"
+                      >
+                      {{item.task_status}}
+                      </v-chip>
+                    </td>
                 <td>
-                  <router-link class="text-decoration-none" :to="{ path: `/addedit/${item.task_id}`}" >
-                  <v-icon small class="mr-2" 
-                    >mdi-pencil</v-icon
-                  ></router-link>
-                  <v-icon small @click="deleteTask(item.task_id)">
-                    mdi-delete
-                  </v-icon>
+                  <router-link
+                    class="text-decoration-none"
+                    :to="{ path: `/addedit/${item.task_id}` }"
+                  >
+                    <v-icon small class="mr-2">mdi-pencil</v-icon></router-link
+                  >
+                  <v-icon small @click="deleteTask(item.task_id)"> mdi-delete </v-icon>
                 </td>
               </tr>
             </tbody>
           </template>
         </v-data-table>
         <v-pagination
-          v-model="page"
-          :length="calLength(task_id)"
-          class="my-5"
+          v-model="currentPage"
+          :length="pageLength()"
+          color="grey darken-3"
+          class="mb-5 py-5"
+          next-icon="mdi-menu-right"
+          prev-icon="mdi-menu-left"
         ></v-pagination>
       </v-card>
     </v-container>
@@ -85,15 +130,13 @@ export default {
   data() {
     return {
       menu2: false,
-      page: 1,
       date: "",
-      search: "",
-      searchStatus:"",
-      searchDate:"",
+      searchTitle: "",
+      searchStatus: "",
+      searchDate: "",
       status: ["Todo", "In Progress", "Done"],
-
       headers: [
-        // { text: "Task_id", align: "start", sortable: false, value: "task_id" },
+        { text: "Task_id", align: "start", sortable: false, value: "task_id" },
         { text: "Task", align: "start", sortable: false, value: "task_title" },
         { text: "Description", value: "task_description" },
         { text: "Priority", value: "task_priority" },
@@ -102,35 +145,59 @@ export default {
         { text: "Action", value: "action" },
       ],
       TodoItems: [],
+      currentPage: 1,
+      pageSize: 5,
     };
   },
-    mixins: [searchMixin],
-
-  created() {
-    this.$http.get("http://localhost:3000/todolist").then(
-      (data) => {
+  mixins: [searchMixin],
+  methods: {
+     loadData() {
+      this.$http.get("http://localhost:3000/todolist").then(
+         (data) => {
         this.TodoItems = data.body;
       },
-      (error) => {
-        console.log(error);
+       (error) => {
+       console.log(error);
       }
-    );
-  },
-  methods: {
-    calLength: function () {
-      return this.TodoItems.length / 5;
+      );
+     },
+   
+    pageLength() {
+      let length = Math.ceil(this.TodoItems.length / 5);
+      return length;
+    }, 
+    paginatedData() {
+      const start = this.currentPage * this.pageSize - this.pageSize,
+        end = start + this.pageSize;
+      return this.filterItem.slice(start, end);
     },
-    deleteTask: function (id) {
-      this.$http.delete("http://localhost:3000/delete/" + id).then(() => {
-        //  alert('data Deleted' , id);
-        this.$swal("Good job!", "Task Deleted Successfully!", "success");
-        this.$refs.datatable.clear();
+    deleteTask(id) {
+        this.$swal({
+          title: 'Are you sure?',
+          text: 'You want to Delete this Task',
+          type: 'warning',
+          showCancelButton: true,
+          confirmButtonText: 'Yes Delete it!',
+          cancelButtonText: 'No, Keep it!',
+          showCloseButton: true,
+          showLoaderOnConfirm: true
+        }).then((result) => {
+          if(result.value) {
+            this.$swal('Deleted', 'You successfully deleted this file', 'success')
+            this.$http.delete("http://localhost:3000/delete/" + id).then(() => {
+            this.loadData();
+            });
+        } else {
+          this.$swal('Cancelled', 'Your file is still intact', 'info');
+        }
       });
-    },
-    
+    }
   },
-  mounted() {
+  mounted(){
     this.calLength();
   },
-};
+   created() {
+     this.loadData(); 
+  },
+}
 </script>

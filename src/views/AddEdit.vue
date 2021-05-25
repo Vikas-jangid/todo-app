@@ -31,7 +31,7 @@
           <v-row class="my-2">
             <v-col lg="6" md="6" sm="12">
               <v-menu
-                v-model="menu2"
+                v-model="menu"
                 :close-on-content-click="false"
                 :nudge-right="40"
                 transition="scale-transition"
@@ -123,7 +123,7 @@ export default {
             task_priority: this.TodoData.priority,
           })
           .then(() => {
-            this.$swal("Task Added Successfully");
+            Swal.fire("Task Added Successfully", "success");
             this.$refs.todoform.reset();
           });
       }
@@ -134,7 +134,7 @@ export default {
         this.$http.get("http://localhost:3000/edit/" + this.Task_id).then((data) => {
           let prevData = data.body;
           this.TodoData.title = prevData[0].task_title;
-          this.TodoData.date = prevData[0].added_on;
+          this.TodoData.date = prevData[0].added_on.substr(0, 10);
           this.TodoData.status = prevData[0].task_status;
           this.TodoData.priority = prevData[0].task_priority;
           this.TodoData.description = prevData[0].task_description;
@@ -154,10 +154,10 @@ export default {
             task_priority: this.TodoData.priority,
           })
           .then(() => {
-            this.$swal("Task Updated Successfully");
+            Swal.fire("Task Updated Successfully");
+            this.$refs.todoform.reset();
           });
       }
-
     }
   },
   mounted() {

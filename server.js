@@ -10,7 +10,6 @@ app.use(bodyParser.json());
 
 // Add API
 app.post("/add", (req, res) => {
-
   let task_title = req.body.task_title;
   let task_description = req.body.task_description;
   let task_status = req.body.task_status;
@@ -30,9 +29,9 @@ app.post("/add", (req, res) => {
 
 // Read DATA from DB 
 app.get("/todolist", (req, res) => {
-  con.query("SELECT * FROM todolist ORDER BY task_id ASC;", (err, rows, fields) => {
+  con.query("SELECT * FROM todolist", (err, rows, fields) => {
     if (!err) {
-      res.send(rows);
+     res.send(rows);
     } else {
     }
   });
@@ -74,13 +73,14 @@ app.get("/edit/:id" , (req ,res) =>{
 
 app.put('/update/:id' , (req ,res) => {
 
-  console.log(req.body);
+  console.log(req.body.added_on);
   
   let task_title = req.body.task_title;
   let task_description = req.body.task_description;
   let task_status = req.body.task_status;
   let added_on = req.body.added_on;
   let task_priority = req.body.task_priority;
+  console.log(added_on);
 
 con.query(`UPDATE todolist SET task_title = '${task_title}' , task_description = '${task_description}', task_status = '${task_status}', added_on = '${added_on}' , task_priority = '${task_priority}'   where task_id =?` , [req.params.id], (err , rows, fields)=>{
         if(err){
@@ -94,6 +94,7 @@ con.query(`UPDATE todolist SET task_title = '${task_title}' , task_description =
 
 
 //Delete API  
+
 app.delete("/delete/:id", (req, res) => {
   con.query(
     "DELETE from todolist WHERE task_id = ?",

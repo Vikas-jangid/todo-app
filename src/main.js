@@ -8,7 +8,7 @@ import Vuetify from "vuetify/lib";
 import VueSweetalert2 from "vue-sweetalert2";
 import "sweetalert2/dist/sweetalert2.min.css";
 
-/* eslint-disable */
+ /* eslint-disable no-alert */ 
 
 Vue.config.productionTip = false;
 Vue.use(VueResource);
