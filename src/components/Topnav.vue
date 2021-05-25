@@ -9,7 +9,7 @@
       ></v-app-bar-nav-icon>
       <v-toolbar-title>
         <span class="font-weight-bold white--text">TODO</span>
-        <span class="white--text text-weight-bold darkern--text--1">APP</span>
+        <span class="white--text font-weight-bold">APP</span>
       </v-toolbar-title>
       <v-spacer></v-spacer>
       <v-img
