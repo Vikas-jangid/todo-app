@@ -123,7 +123,7 @@ export default {
             task_priority: this.TodoData.priority,
           })
           .then(() => {
-            Swal.fire("Task Added Successfully", "success");
+            this.$swal("Task Added Successfully" , "Success");
             this.$refs.todoform.reset();
           });
       }
@@ -154,7 +154,7 @@ export default {
             task_priority: this.TodoData.priority,
           })
           .then(() => {
-            Swal.fire("Task Updated Successfully");
+            this.$swal("Task Updated Successfully");
             this.$refs.todoform.reset();
           });
       }
@@ -162,6 +162,6 @@ export default {
   },
   mounted() {
     this.edit();
-    }
+  },
 };
 </script>
