@@ -80,26 +80,28 @@
           </v-row>
           <v-row>
             <v-spacer></v-spacer>
-            <v-btn
-              class="ma-5 pa-5 px-12 white--text"
-              large
-              dark
-              elevation="12"
-              @click="SubmitForm()"
-              v-if="!editing"
-            >
-              Add
-            </v-btn>
-            <v-btn
-              class="ma-5 pa-5 px-12 white--text"
-              large
-              dark
-              elevation="12"
-              @click="UpdateForm(Task_id)"
-              v-if="editing"
-            >
-              Update
-            </v-btn>
+              <v-btn
+                class="ma-5 pa-5 px-12 white--text"
+                large
+                dark
+                elevation="12"
+                @click="SubmitForm()"
+                v-if="!editing"
+              >
+                Add
+              </v-btn>
+              <v-btn
+                class="ma-5 pa-5 px-12 white--text"
+                large
+                dark
+                elevation="12"
+                @click="UpdateForm(Task_id)"
+                v-if="editing"
+                v-on="on"
+                v-bind="attrs"
+              >
+                Update
+              </v-btn>
           </v-row>
         </v-form>
       </v-card>
@@ -112,6 +114,7 @@ export default {
   data() {
     return {
       menu2: false,
+      dialog: false,
       editing: false,
       status: ["Todo", "In Progress", "Done"],
       priorities: ["Low", "High", "Very High"],

@@ -161,7 +161,7 @@ export default {
           this.TodoItems = data.body;
            
           let titles = [];
-          for (let i=0 ; i < this.TodoItems.length ; i++){
+          for (let i=0;i<this.TodoItems.length;i++){
             titles.push(this.TodoItems[i].task_title)
           }
           this.titleList = titles;
@@ -201,10 +201,6 @@ export default {
         }
       });
     },
-  },
-
-  mounted() {
-    this.calLength();
   },
   created() {
     this.loadData();
