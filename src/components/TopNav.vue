@@ -1,17 +1,6 @@
 <template>
   <div>
     <v-app-bar app flat color="grey darken-3 ">
-      <v-app-bar-nav-icon
-        right
-        @click="drawer = !drawer"
-        fab
-        color="white"
-      ></v-app-bar-nav-icon>
-      <v-toolbar-title>
-        <span class="font-weight-bold white--text">TODO</span>
-        <span class="white--text font-weight-bold">APP</span>
-      </v-toolbar-title>
-      <v-spacer></v-spacer>
       <v-img
         max-height="100%"
         max-width="15%"
@@ -20,11 +9,22 @@
         src="../assets/InfoLOGO.png"
       >
       </v-img>
+        <v-spacer></v-spacer>
+      <v-toolbar-title>
+        <span class="font-weight-bold white--text">TODO</span>
+        <span class="white--text font-weight-bold">APP</span>
+      </v-toolbar-title>
+       <v-app-bar-nav-icon
+        right
+        @click="drawer = !drawer"
+        fab
+        color="white"
+      ></v-app-bar-nav-icon>
     </v-app-bar>
-    <v-navigation-drawer app v-model="drawer" color="grey lighten-3">
+    <v-navigation-drawer app v-model="drawer" right color="grey lighten-4">
       <v-list>
         <div>
-          <h3 class="pa-4 font-weight-normal">Todo Menu</h3>
+          <h3 class="pa-4 font-weight-normal">Menu</h3>
         </div>
         <v-list-item-group v-model="selectedItem" class="mt-2">
           <v-list-item
@@ -52,8 +52,8 @@ export default {
       drawer: false,
       selectedItem: 1,
       links: [
-        { icon: "mdi-folder", text: "My TODO List", route: "/" },
-        { icon: "mdi-plus", text: "Add Work in List", route: "/addedit" },
+        { icon: "mdi-folder", text: "My TODO's", route: "/" },
+        { icon: "mdi-plus", text: "Add Task in TODO", route: "/addedit" },
       ],
     };
   },
