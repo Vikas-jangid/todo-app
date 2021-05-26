@@ -80,8 +80,28 @@
           </v-row>
           <v-row>
             <v-spacer></v-spacer>
-            <v-btn class="ma-5 pa-5 px-12 white--text" large dark elevation="12" @click="SubmitForm()" v-if="!editing"> Add </v-btn>
-            <v-btn class="ma-5 pa-5 px-12 white--text" large dark elevation="12" @click="UpdateForm(Task_id)" v-if="editing"> Update </v-btn>
+              <v-btn
+                class="ma-5 pa-5 px-12 white--text"
+                large
+                dark
+                elevation="12"
+                @click="SubmitForm()"
+                v-if="!editing"
+              >
+                Add
+              </v-btn>
+              <v-btn
+                class="ma-5 pa-5 px-12 white--text"
+                large
+                dark
+                elevation="12"
+                @click="UpdateForm(Task_id)"
+                v-if="editing"
+                v-on="on"
+                v-bind="attrs"
+              >
+                Update
+              </v-btn>
           </v-row>
         </v-form>
       </v-card>
@@ -94,6 +114,7 @@ export default {
   data() {
     return {
       menu2: false,
+      dialog: false,
       editing: false,
       status: ["Todo", "In Progress", "Done"],
       priorities: ["Low", "High", "Very High"],
@@ -123,7 +144,7 @@ export default {
             task_priority: this.TodoData.priority,
           })
           .then(() => {
-            this.$swal("Task Added Successfully" , "Success");
+            this.$swal("Task Added Successfully", "Success");
             this.$refs.todoform.reset();
           });
       }
@@ -131,19 +152,21 @@ export default {
     edit: function () {
       if (this.Task_id) {
         this.editing = true;
-        this.$http.get("http://localhost:3000/edit/" + this.Task_id).then((data) => {
-          let prevData = data.body;
-          this.TodoData.title = prevData[0].task_title;
-          this.TodoData.date = prevData[0].added_on.substr(0, 10);
-          this.TodoData.status = prevData[0].task_status;
-          this.TodoData.priority = prevData[0].task_priority;
-          this.TodoData.description = prevData[0].task_description;
-        });
+        this.$http
+          .get("http://localhost:3000/edit/" + this.Task_id)
+          .then((data) => {
+            let prevData = data.body;
+            this.TodoData.title = prevData[0].task_title;
+            this.TodoData.date = prevData[0].added_on.substr(0, 10);
+            this.TodoData.status = prevData[0].task_status;
+            this.TodoData.priority = prevData[0].task_priority;
+            this.TodoData.description = prevData[0].task_description;
+          });
       } else {
         // no action will be perform
       }
     },
-    UpdateForm :function(Task_id){
+    UpdateForm: function (Task_id) {
       if (this.$refs.todoform.validate()) {
         this.$http
           .put("http://localhost:3000/update/" + Task_id, {
@@ -158,7 +181,7 @@ export default {
             this.$refs.todoform.reset();
           });
       }
-    }
+    },
   },
   mounted() {
     this.edit();

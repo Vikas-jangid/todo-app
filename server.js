@@ -26,80 +26,23 @@ app.post("/add", (req, res) => {
   });
 });
 
-
-// Read DATA from DB 
+// Read DATA from DB
 app.get("/todolist", (req, res) => {
-  con.query("SELECT * FROM todolist", (err, rows, fields) => {
+  con.query("SELECT * FROM todolist", (err, rows) => {
     if (!err) {
-     res.send(rows);
+      res.send(rows);
     } else {
+      res.sen(err);
     }
   });
 });
 
-
-// Read SINGLE DATA from DB 
+// Read SINGLE DATA from DB
 app.get("/todolist/:id", (req, res) => {
   con.query(
     "SELECT * FROM todolist WHERE task_id = ?",
     [req.params.id],
     (err, rows) => {
-      if (!err) {
-        res.send(rows);
-      } else {
-        res.send(err)
-
-      }
-    }
-  );
-});
-
-
-// EDIT API
-
-app.get("/edit/:id" , (req ,res) =>{
-    con.query("SELECT * FROM todolist WHERE task_id = ?", [req.params.id] , (err , rows ) =>{
-        if(!err){
-            res.send(rows);
-        }else{
-            res.send(err)
-        }
-    }
-        
-    )
-})
-
-// UPDATE API
-
-app.put('/update/:id' , (req ,res) => {
-
-  console.log(req.body.added_on);
-  
-  let task_title = req.body.task_title;
-  let task_description = req.body.task_description;
-  let task_status = req.body.task_status;
-  let added_on = req.body.added_on;
-  let task_priority = req.body.task_priority;
-  console.log(added_on);
-
-con.query(`UPDATE todolist SET task_title = '${task_title}' , task_description = '${task_description}', task_status = '${task_status}', added_on = '${added_on}' , task_priority = '${task_priority}'   where task_id =?` , [req.params.id], (err , rows, fields)=>{
-        if(err){
-           throw err
-        }
-        else{
-          res.send('success')
-        }
-    })
-});
-
-
-//Delete API  
-
-app.delete("/delete/:id", (req, res) => {
-  con.query(
-    "DELETE from todolist WHERE task_id = ?",
-    [req.params.id],
-    (err, rows, fields) => {
       if (!err) {
         res.send(rows);
       } else {
@@ -109,6 +52,61 @@ app.delete("/delete/:id", (req, res) => {
   );
 });
 
+// EDIT API
+
+app.get("/edit/:id", (req, res) => {
+  con.query(
+    "SELECT * FROM todolist WHERE task_id = ?",
+    [req.params.id],
+    (err, rows) => {
+      if (!err) {
+        res.send(rows);
+      } else {
+        res.send(err);
+      }
+    }
+  );
+});
+
+// UPDATE API
+
+app.put("/update/:id", (req, res) => {
+  console.log(req.body.added_on);
+
+  let task_title = req.body.task_title;
+  let task_description = req.body.task_description;
+  let task_status = req.body.task_status;
+  let added_on = req.body.added_on;
+  let task_priority = req.body.task_priority;
+
+  con.query(
+    `UPDATE todolist SET task_title = '${task_title}' , task_description = '${task_description}', task_status = '${task_status}', added_on = '${added_on}' , task_priority = '${task_priority}'   where task_id =?`,
+    [req.params.id],
+    (err) => {
+      if (err) {
+        throw err;
+      } else {
+        res.send("success");
+      }
+    }
+  );
+});
+
+//Delete API
+
+app.delete("/delete/:id", (req, res) => {
+  con.query(
+    "DELETE from todolist WHERE task_id = ?",
+    [req.params.id],
+    (err, rows) => {
+      if (!err) {
+        res.send(rows);
+      } else {
+        res.send(err);
+      }
+    }
+  );
+});
 
 app.listen(3000, function () {
   console.log("App is running on port 3000");
