@@ -20,6 +20,7 @@
     "vue": "^2.6.11",
     "vue-resource": "^1.5.2",
     "vue-router": "^3.5.1",
+    "vue-suggestion": "^1.1.0",
     "vue-sweetalert2": "^4.3.1",
     "vuetify": "^2.4.0"
   },
