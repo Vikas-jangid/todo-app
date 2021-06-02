@@ -9,12 +9,12 @@
         src="../assets/InfoLOGO.png"
       >
       </v-img>
-        <v-spacer></v-spacer>
+      <v-spacer></v-spacer>
       <v-toolbar-title>
         <span class="font-weight-bold white--text">TODO</span>
         <span class="white--text font-weight-bold">APP</span>
       </v-toolbar-title>
-       <v-app-bar-nav-icon
+      <v-app-bar-nav-icon
         right
         @click="drawer = !drawer"
         fab

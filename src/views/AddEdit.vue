@@ -23,7 +23,6 @@
                 prepend-icon="mdi-priority-high"
                 v-model="TodoData.priority"
                 :items="priorities"
-                :item-value="Low"
               >
               </v-select>
             </v-col>
@@ -61,7 +60,6 @@
                 prepend-icon="mdi-list-status"
                 item-text="status"
                 v-model="TodoData.status"
-                :item-value="Todo"
               ></v-select>
             </v-col>
           </v-row>
@@ -80,28 +78,26 @@
           </v-row>
           <v-row>
             <v-spacer></v-spacer>
-              <v-btn
-                class="ma-5 pa-5 px-12 white--text"
-                large
-                dark
-                elevation="12"
-                @click="SubmitForm()"
-                v-if="!editing"
-              >
-                Add
-              </v-btn>
-              <v-btn
-                class="ma-5 pa-5 px-12 white--text"
-                large
-                dark
-                elevation="12"
-                @click="UpdateForm(Task_id)"
-                v-if="editing"
-                v-on="on"
-                v-bind="attrs"
-              >
-                Update
-              </v-btn>
+            <v-btn
+              class="ma-5 pa-5 px-12 white--text"
+              large
+              dark
+              elevation="12"
+              @click="SubmitForm()"
+              v-if="!editing"
+            >
+              Add
+            </v-btn>
+            <v-btn
+              class="ma-5 pa-5 px-12 white--text"
+              large
+              dark
+              elevation="12"
+              @click="UpdateForm(Task_id)"
+              v-if="editing"
+            >
+              Update
+            </v-btn>
           </v-row>
         </v-form>
       </v-card>
@@ -114,6 +110,7 @@ export default {
   data() {
     return {
       menu2: false,
+      menu: false,
       dialog: false,
       editing: false,
       status: ["Todo", "In Progress", "Done"],
@@ -144,12 +141,17 @@ export default {
             task_priority: this.TodoData.priority,
           })
           .then(() => {
-            this.$swal("Task Added Successfully", "Success");
+            this.$swal({
+              icon: "success",
+              title: "Your Task has been Added Successfully",
+              showConfirmButton: false,
+              timer: 1500,
+            });
             this.$refs.todoform.reset();
           });
       }
     },
-    edit: function () {
+    editForm: function () {
       if (this.Task_id) {
         this.editing = true;
         this.$http
@@ -177,14 +179,19 @@ export default {
             task_priority: this.TodoData.priority,
           })
           .then(() => {
-            this.$swal("Task Updated Successfully");
+            this.$swal({
+              icon: "success",
+              title: "Your Task has been Updated Successfully",
+              showConfirmButton: false,
+              timer: 1500,
+            });
             this.$refs.todoform.reset();
           });
       }
     },
   },
   mounted() {
-    this.edit();
+    this.editForm();
   },
 };
 </script>

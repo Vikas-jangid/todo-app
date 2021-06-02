@@ -13,6 +13,8 @@ export default {
   components: {
     "top-nav": TopNav,
   },
-  data() {},
+  data() {
+    return {};
+  },
 };
 </script>

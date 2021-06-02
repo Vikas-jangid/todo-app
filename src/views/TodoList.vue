@@ -107,7 +107,9 @@
                   >
                     <v-icon small class="mr-2">mdi-pencil</v-icon></router-link
                   >
-                  <v-icon small @click="deleteTask(item.task_id)"> mdi-delete </v-icon>
+                  <v-icon small @click="deleteTask(item.task_id)">
+                    mdi-delete
+                  </v-icon>
                 </td>
               </tr>
             </tbody>
@@ -159,10 +161,11 @@ export default {
       this.$http.get("http://localhost:3000/todolist").then(
         (data) => {
           this.TodoItems = data.body;
-           
+          console.log(this.TodoItems);
+
           let titles = [];
-          for (let i=0;i<this.TodoItems.length;i++){
-            titles.push(this.TodoItems[i].task_title)
+          for (let i = 0; i < this.TodoItems.length; i++) {
+            titles.push(this.TodoItems[i].task_title);
           }
           this.titleList = titles;
         },
@@ -182,22 +185,30 @@ export default {
     },
     deleteTask(id) {
       this.$swal({
+        icon: "warning",
         title: "Are you sure?",
-        text: "You want to Delete this Task",
-        type: "warning",
         showCancelButton: true,
-        confirmButtonText: "Yes Delete it!",
-        cancelButtonText: "No, Keep it!",
-        showCloseButton: true,
-        showLoaderOnConfirm: true,
+        confirmButtonColor: "green",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Delete",
       }).then((result) => {
-        if (result.value) {
-          this.$swal("Deleted", "You successfully deleted this file", "success");
+        if (result.isConfirmed) {
+          this.$swal({
+            title: "Your Task has been deleted Successfully",
+            icon: "success",
+            showConfirmButton: false,
+            timer: 1500,
+          });
           this.$http.delete("http://localhost:3000/delete/" + id).then(() => {
             this.loadData();
           });
         } else {
-          this.$swal("Cancelled", "Your file is still intact", "info");
+          this.$swal({
+            title: "Great.!! Your Task is still safe with US :)",
+            icon: "error",
+            showConfirmButton: false,
+            timer: 1500,
+          });
         }
       });
     },
