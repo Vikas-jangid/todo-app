@@ -16,7 +16,7 @@ Vue.use(VueResource);
 Vue.use(Vuetify);
 Vue.use(VueSweetalert2);
 
-new Vue({
+new Vue({ 
   vuetify,
   router: router,
   render: (h) => h(App),
