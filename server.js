@@ -28,11 +28,11 @@ app.post("/add", (req, res) => {
 
 // Read DATA from DB
 app.get("/todolist", (req, res) => {
-  con.query("SELECT * FROM todolist", (err, rows) => {
+  con.query("SELECT* FROM todolist", (err, rows) => {
     if (!err) {
       res.send(rows);
     } else {
-      res.sen(err);
+      res.send(err);
     }
   });
 });
