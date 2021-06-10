@@ -161,7 +161,6 @@ export default {
       this.$http.get("http://localhost:3000/todolist").then(
         (data) => {
           this.TodoItems = data.body;
-          console.log(this.TodoItems);
 
           let titles = [];
           for (let i = 0; i < this.TodoItems.length; i++) {
